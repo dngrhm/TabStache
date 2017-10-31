@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   stache.setChromeBookmarks(chrome.bookmarks);
   stache.setChromeTabs(chrome.tabs);
   chrome.bookmarks.search({
-      'title': 'TabStache_base'
+    'title': 'TabStache_base'
   }, stache.genSearchResult());
 
   stache.listenNewStache('keyup', (e) => {
