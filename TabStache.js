@@ -62,6 +62,10 @@ const TabStache = {
     this.new_stache.value = "";
   },
 
+  isDuplicate: function(urls, tabUrl, ndx) {
+    return urls.indexOf(tabUrl) < ndx;
+  }
+
   load_stache: function () {
     const self = this;
     return (node) => {
@@ -69,8 +73,7 @@ const TabStache = {
         let urls = tabs.map(tab => tab.url);
         for (let i in tabs) {
           // some tabs should be ignored
-          // 1. ignore dublicate tabs
-          if (urls.indexOf(tabs[i].url) < i) {
+          if (isDuplicate(urls, tabs[i].url, i)) {
             self.chromeTabsObj.remove(tabs[i].id);
             continue;
           }
@@ -128,7 +131,7 @@ const TabStache = {
   setChromeBookmarks: function (chromeBookmarks) {
     this.chromeBookmarkObj = chromeBookmarks;
   },
-  
+
   setChromeTabs: function (chromeTabs) {
     this.chromeTabsObj = chromeTabs;
   }
