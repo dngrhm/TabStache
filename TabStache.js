@@ -62,6 +62,10 @@ const TabStache = {
     this.new_stache.value = "";
   },
 
+  isChromeTab: function(url) {
+    return url.startsWith("chrome-extension://") || url.startsWith("chrome://") || url.startsWith("about:blank");
+  },
+
   load_stache: function () {
     const self = this;
     return (node) => {
@@ -75,7 +79,7 @@ const TabStache = {
             continue;
           }
           // 2. ignore some specified types of tabs
-          if (tabs[i].url.startsWith("chrome-extension://") || tabs[i].url.startsWith("chrome://") || tabs[i].url.startsWith("about:blank")) {
+          if (isChromeTab(tabs[i].url)) {
             self.chromeTabsObj.remove(tabs[i].id);
             continue;
           }
@@ -128,7 +132,7 @@ const TabStache = {
   setChromeBookmarks: function (chromeBookmarks) {
     this.chromeBookmarkObj = chromeBookmarks;
   },
-  
+
   setChromeTabs: function (chromeTabs) {
     this.chromeTabsObj = chromeTabs;
   }
