@@ -6,6 +6,15 @@ const TabStache = {
   chromeBookmarkObj: null,
   chromeTabsObj: null,
 
+  createStache: function(bookmark) {
+    const stash = document.createElement('button');
+    stache.setAttribute('value', bookmark.id);
+    stache.setAttribute('class', 'stache');
+    stache.addEventListener('click', this.unload_stache());
+    stache.appendChild(document.createTextNode(bookmark.title));
+    return stash;
+  },
+
   /**
    * @member {Object} DOMApi An object that implements the
    * DOM document API
@@ -27,16 +36,11 @@ const TabStache = {
   populateStacheList: function (results) {
     this.tabStacheId = results[0].id;
     this.chromeBookmarkObj.getChildren(this.tabStacheId, (children) => {
-      children.forEach((bookmark) => {
-        let stache = document.createElement('button');
-        stache.setAttribute('value', bookmark.id);
-        stache.setAttribute('class', 'stache');
-        stache.addEventListener('click', this.unload_stache());
-        stache.appendChild(document.createTextNode(bookmark.title));
-        let li = document.createElement('article');
-        li.appendChild(stache);
-        this.stache_list.appendChild(li);
-      });
+      this.stache_list = children.reduce((the_list, bookmark) => {
+        li.appendChild(createStache(bookmark));
+        the_list.appendChild(li);
+        return the_list;
+      }, this.stache_list);
     });
   },
 
@@ -128,7 +132,7 @@ const TabStache = {
   setChromeBookmarks: function (chromeBookmarks) {
     this.chromeBookmarkObj = chromeBookmarks;
   },
-  
+
   setChromeTabs: function (chromeTabs) {
     this.chromeTabsObj = chromeTabs;
   }
